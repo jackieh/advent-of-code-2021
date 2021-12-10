@@ -2,6 +2,10 @@ use regex::Regex;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
+lazy_static::lazy_static! {
+    static ref RE: Regex = Regex::new(r"^(\w+) (\d+)$").unwrap();
+}
+
 enum Direction {
     Forward,
     Down,
@@ -91,8 +95,7 @@ fn parse_direction(input_direction: &str) -> Option<Direction> {
 }
 
 fn parse_input_line(input_line: &str) -> Command {
-    let re = Regex::new(r"^(\w+) (\d+)$").unwrap();
-    let cap = re.captures(input_line).unwrap();
+    let cap = RE.captures(input_line).unwrap();
     Command {
         direction: parse_direction(&cap[1]).unwrap(),
         amount: cap[2].parse::<i32>().unwrap(),
