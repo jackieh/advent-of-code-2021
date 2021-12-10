@@ -13,81 +13,46 @@ struct Command {
     amount: i32,
 }
 
+#[derive(Default)]
 struct SubmarinePosition {
     horizontal: i32,
     vertical: i32,
 }
-
-impl SubmarinePosition {
-    pub fn new() -> Self {
-        Self {
-            horizontal: 0,
-            vertical: 0,
-        }
-    }
-}
-
 trait SubmarineState {
     fn get_position(self) -> SubmarinePosition;
     fn execute(self, c: &Command) -> Self;
 }
 
-struct Part1SubmarineState {
-    position: SubmarinePosition,
-}
-
-impl Part1SubmarineState {
-    pub fn new() -> Self {
-        Self {
-            position: SubmarinePosition::new(),
-        }
-    }
-}
+#[derive(Default)]
+struct Part1SubmarineState(SubmarinePosition);
 
 impl SubmarineState for Part1SubmarineState {
     fn get_position(self) -> SubmarinePosition {
-        self.position
+        self.0
     }
 
     fn execute(self, c: &Command) -> Self {
         match c.direction {
-            Direction::Forward => Self {
-                position: SubmarinePosition {
-                    horizontal: self.position.horizontal + c.amount,
-                    vertical: self.position.vertical,
-                },
-            },
-            Direction::Down => Self {
-                position: SubmarinePosition {
-                    horizontal: self.position.horizontal,
-                    vertical: self.position.vertical + c.amount,
-                },
-            },
-            Direction::Up => Self {
-                position: SubmarinePosition {
-                    horizontal: self.position.horizontal,
-                    vertical: self.position.vertical - c.amount,
-                },
-            },
+            Direction::Forward => Self(SubmarinePosition {
+                horizontal: self.0.horizontal + c.amount,
+                vertical: self.0.vertical,
+            }),
+            Direction::Down => Self(SubmarinePosition {
+                horizontal: self.0.horizontal,
+                vertical: self.0.vertical + c.amount,
+            }),
+            Direction::Up => Self(SubmarinePosition {
+                horizontal: self.0.horizontal,
+                vertical: self.0.vertical - c.amount,
+            }),
         }
     }
 }
 
+#[derive(Default)]
 struct Part2SubmarineState {
     position: SubmarinePosition,
     aim: i32,
-}
-
-impl Part2SubmarineState {
-    pub fn new() -> Self {
-        Self {
-            position: SubmarinePosition {
-                horizontal: 0,
-                vertical: 0,
-            },
-            aim: 0,
-        }
-    }
 }
 
 impl SubmarineState for Part2SubmarineState {
@@ -154,11 +119,11 @@ fn get_solution(initial_state: impl SubmarineState, commands: &[Command]) -> i32
 }
 
 fn part1(commands: &[Command]) -> i32 {
-    get_solution(Part1SubmarineState::new(), commands)
+    get_solution(Part1SubmarineState::default(), commands)
 }
 
 fn part2(commands: &[Command]) -> i32 {
-    get_solution(Part2SubmarineState::new(), commands)
+    get_solution(Part2SubmarineState::default(), commands)
 }
 
 fn main() {
