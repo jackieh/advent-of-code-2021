@@ -39,12 +39,8 @@ fn get_filtered_number(binary_numbers: &[Vec<u32>], requires_most_common_bit: bo
         }
         let sum = (0..num_rows).fold(0, |s, r| s + remaining_numbers[r][c]);
         let most_common_bit = (sum * 2 >= num_rows as u32) as u32;
-        let required_bit = most_common_bit ^ (requires_most_common_bit as u32);
-        remaining_numbers = remaining_numbers
-            .iter()
-            .filter(|row| row[c] == required_bit)
-            .copied()
-            .collect();
+        let required_bit = most_common_bit ^ (!requires_most_common_bit as u32);
+        remaining_numbers.retain(|row| row[c] == required_bit);
     }
     remaining_numbers[0].iter().fold(0, |d, b| d * 2 + b)
 }

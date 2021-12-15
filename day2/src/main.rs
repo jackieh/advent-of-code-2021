@@ -22,6 +22,7 @@ struct SubmarinePosition {
     horizontal: i32,
     vertical: i32,
 }
+
 trait SubmarineState {
     fn get_position(self) -> SubmarinePosition;
     fn execute(self, c: &Command) -> Self;
