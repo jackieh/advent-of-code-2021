@@ -96,13 +96,7 @@ fn get_first_winning_board(numbers: &[u32], boards: &[BingoBoard]) -> (u32, Bing
         boards.iter_mut().for_each(|board| board.check_bingo());
         if boards.iter().any(|board| board.bingo) {
             winning_number = Some(*n);
-            winning_board = Some(
-                boards
-                    .iter()
-                    .find(|board| board.bingo)
-                    .unwrap()
-                    .clone(),
-            );
+            winning_board = Some(boards.iter().find(|board| board.bingo).unwrap().clone());
             break;
         }
     }
@@ -120,13 +114,7 @@ fn get_last_winning_board(numbers: &[u32], boards: &[BingoBoard]) -> (u32, Bingo
         boards.iter_mut().for_each(|board| board.check_bingo());
         if boards.iter().any(|board| board.bingo) {
             winning_number = Some(*n);
-            winning_board = Some(
-                boards
-                    .iter()
-                    .find(|board| board.bingo)
-                    .unwrap()
-                    .clone(),
-            );
+            winning_board = Some(boards.iter().find(|board| board.bingo).unwrap().clone());
             boards.retain(|board| !board.bingo);
         }
     }
