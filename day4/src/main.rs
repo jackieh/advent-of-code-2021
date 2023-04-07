@@ -87,8 +87,8 @@ fn read_input(file_path: &str) -> (Vec<u32>, Vec<BingoBoard>) {
 
 // Return the first board that wins the soonest when the numbers are called,
 // and the number that is called when the board wins.
-fn get_first_winning_board(numbers: &Vec<u32>, boards: &Vec<BingoBoard>) -> (u32, BingoBoard) {
-    let mut boards: Vec<BingoBoard> = boards.clone();
+fn get_first_winning_board(numbers: &[u32], boards: &[BingoBoard]) -> (u32, BingoBoard) {
+    let mut boards: Vec<BingoBoard> = boards.to_owned();
     let mut winning_board = None;
     let mut winning_number = None;
     for n in numbers {
@@ -99,8 +99,7 @@ fn get_first_winning_board(numbers: &Vec<u32>, boards: &Vec<BingoBoard>) -> (u32
             winning_board = Some(
                 boards
                     .iter()
-                    .filter(|board| board.bingo)
-                    .next()
+                    .find(|board| board.bingo)
                     .unwrap()
                     .clone(),
             );
@@ -112,8 +111,8 @@ fn get_first_winning_board(numbers: &Vec<u32>, boards: &Vec<BingoBoard>) -> (u32
 
 // Return the first board that wins the latest when the numbers are called,
 // and the number that is called when the board wins.
-fn get_last_winning_board(numbers: &Vec<u32>, boards: &Vec<BingoBoard>) -> (u32, BingoBoard) {
-    let mut boards: Vec<BingoBoard> = boards.clone();
+fn get_last_winning_board(numbers: &[u32], boards: &[BingoBoard]) -> (u32, BingoBoard) {
+    let mut boards: Vec<BingoBoard> = boards.to_owned();
     let mut winning_number = None;
     let mut winning_board = None;
     for n in numbers {
@@ -124,8 +123,7 @@ fn get_last_winning_board(numbers: &Vec<u32>, boards: &Vec<BingoBoard>) -> (u32,
             winning_board = Some(
                 boards
                     .iter()
-                    .filter(|board| board.bingo)
-                    .next()
+                    .find(|board| board.bingo)
                     .unwrap()
                     .clone(),
             );
@@ -146,13 +144,13 @@ fn get_sum_of_unmarked_numbers(board: &BingoBoard) -> u32 {
 }
 
 // Part 1: Return the first number to get a bingo times the sum of all unmarked numbers of the first winning board.
-fn part1(numbers: &Vec<u32>, boards: &Vec<BingoBoard>) -> u32 {
+fn part1(numbers: &[u32], boards: &[BingoBoard]) -> u32 {
     let (winning_number, winning_board) = get_first_winning_board(numbers, boards);
     winning_number * get_sum_of_unmarked_numbers(&winning_board)
 }
 
 // Part 2: Return the last number to get a bingo times the sum of all unmarked numbers of the last winning board.
-fn part2(numbers: &Vec<u32>, boards: &Vec<BingoBoard>) -> u32 {
+fn part2(numbers: &[u32], boards: &[BingoBoard]) -> u32 {
     let (winning_number, winning_board) = get_last_winning_board(numbers, boards);
     winning_number * get_sum_of_unmarked_numbers(&winning_board)
 }

@@ -6,13 +6,12 @@ fn read_input(file_path: &str) -> [usize; 9] {
     let reader = BufReader::new(file);
     let nums_list = reader
         .lines()
-        .map(|line| {
+        .flat_map(|line| {
             let line = line.unwrap();
             line.split(',')
                 .map(|s| s.parse::<u32>().unwrap())
                 .collect::<Vec<u32>>()
         })
-        .flatten()
         .collect::<Vec<u32>>();
     let mut nums_array = [0; 9];
     for n in nums_list {
